@@ -9,17 +9,22 @@ let idCount = links.length
 const resolvers = {
   Query: {
     info: () => 'this is the api of hackerNews!',
-    feed: () => links
+    feed: () => links,
+    link: (parent, args) => links.find(l => l.id === args.id)
   },
-  Mutation:{
-    post:(parent,args)=>{
+  Mutation: {
+    post: (parent, args) => {
       const link = {
-        id:`link-${idCount++}`,
-        description:args.description,
-        url:args.url
+        id: `link-${idCount++}`,
+        description: args.description,
+        url: args.url
       }
       links.push(link)
       return link
+    },
+    update: (parent, args) => {
+      links = links.map(l => l.id === args.id ? args : l)
+      return args
     }
   },
 }
@@ -27,7 +32,7 @@ const resolvers = {
 const fs = require('fs')
 const path = require('path')
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'),"utf-8"),
+  typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), "utf-8"),
   resolvers,
 })
 

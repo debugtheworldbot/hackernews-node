@@ -25,7 +25,11 @@ const resolvers = {
     update: (parent, args) => {
       links = links.map(l => l.id === args.id ? args : l)
       return args
-    }
+    },
+    delete: (parent, args) => {
+      links = links.filter(l => l.id !== args.id)
+      return args
+    },
   },
 }
 

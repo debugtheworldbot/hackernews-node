@@ -36,11 +36,11 @@ const signUp = async (parent, args, context, info) => {
 }
 
 const logIn = async (parent, args, context, info) => {
-  const user = context.prisma.user.findUnique({where: {email: args.email}})
+  const user = await context.prisma.user.findUnique({where: {email: args.email}})
   if (!user) {
     throw new Error('No such user!')
   }
-  const validate = await bcrypt.compare(user.password, args.password)
+  const validate = await bcrypt.compare(args.password, user.password)
   if (!validate) {
     throw new Error('wrong password')
   }

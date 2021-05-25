@@ -1,3 +1,14 @@
+type User{
+    id:ID!
+    name:String!
+    email:String!
+    links:[Link!]!
+}
+type AuthPayload {
+    token:String
+    user:User
+}
+
 type Query{
     info:String!
     feed:[Link!]!
@@ -5,11 +16,15 @@ type Query{
 }
 type Mutation{
     post(url:String!,description:String!):Link!
-    update(id:ID!,url:String!,description:String!):Link
-    delete(id:ID!):Link
+    updatePost(id:ID!,url:String!,description:String!):Link
+    deletePost(id:ID!):Link
+    signUp(email:String!,name:String!,password:String!):AuthPayload
+    login(email:String!,password:String!):AuthPayload
 }
+
 type Link{
     id:ID!
     description:String!
     url:String!
+    postBy:User!
 }

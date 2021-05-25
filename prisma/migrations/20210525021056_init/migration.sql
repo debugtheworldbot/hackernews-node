@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "link" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "createAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "description" TEXT NOT NULL,
+    "url" TEXT NOT NULL
+);

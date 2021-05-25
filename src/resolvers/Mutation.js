@@ -15,8 +15,8 @@ const updatePost = (parent, args, context) => context.prisma.link.update({
   },
   data: {
     url: args.url,
-    description: args.description
-    // todo
+    description: args.description,
+    postedBy: {connect: {id: context.userId}}
   }
 })
 const deletePost = (parent, args, context) => context.prisma.link.delete({

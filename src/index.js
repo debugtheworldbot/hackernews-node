@@ -9,7 +9,7 @@ const resolvers = {
     feed: (parent, args, context) => context.prisma.link.findMany(),
     link: (parent, args, context) => context.prisma.link.findFirst({
       where: {
-        id: args.id
+        id: parseInt(args.id)
       }
     })
   },
@@ -19,16 +19,21 @@ const resolvers = {
         url: args.url,
         description: args.description
       }
+    }),
+    update: (parent, args, context) => context.prisma.link.update({
+      where: {
+        id: parseInt(args.id)
+      },
+      data:{
+        url: args.url,
+        description: args.description
+      }
+    }),
+    delete: (parent, args, context) => context.prisma.link.delete({
+      where: {
+        id: parseInt(args.id)
+      }
     })
-    ,
-    // update: (parent, args) => {
-    //   links = links.map(l => l.id === args.id ? args : l)
-    //   return args
-    // },
-    // delete: (parent, args) => {
-    //   links = links.filter(l => l.id !== args.id)
-    //   return args
-    // },
   },
 }
 

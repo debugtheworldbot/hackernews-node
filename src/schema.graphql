@@ -10,7 +10,6 @@ type AuthPayload {
 }
 
 type Query{
-    info:String!
     feed:[Link!]!
     link(id: ID!): Link
 }
@@ -19,12 +18,12 @@ type Mutation{
     updatePost(id:ID!,url:String!,description:String!):Link
     deletePost(id:ID!):Link
     signUp(email:String!,name:String!,password:String!):AuthPayload
-    login(email:String!,password:String!):AuthPayload
+    logIn(email:String!,password:String!):AuthPayload
 }
 
 type Link{
     id:ID!
     description:String!
     url:String!
-    postBy:User!
+    postedBy:User!
 }

@@ -8,17 +8,23 @@ type AuthPayload {
     token:String
     user:User
 }
-
 type Query{
     feed:[Link!]!
     link(id: ID!): Link
 }
+type Vote{
+    id:ID!
+    link:Link!
+    user:User!
+}
+
 type Mutation{
     post(url:String!,description:String!):Link!
     updatePost(id:ID!,url:String!,description:String!):Link
     deletePost(id:ID!):Link
     signUp(email:String!,name:String!,password:String!):AuthPayload
     logIn(email:String!,password:String!):AuthPayload
+    vote(linkId:ID!):Vote
 }
 
 type Link{
@@ -26,8 +32,10 @@ type Link{
     description:String!
     url:String!
     postedBy:User!
+    votes:[Vote!]!
 }
 
 type Subscription{
     newLink:Link
+    newVote:Vote
 }

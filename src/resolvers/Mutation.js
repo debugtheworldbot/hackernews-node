@@ -55,10 +55,34 @@ const logIn = async (parent, args, context, info) => {
   }
 }
 
+const vote = async (parent, args, context, info) => {
+  const userId = getUserId(context)
+  const vote = await context.prisma.vote.findUnique({
+    where: {
+      linkId_userId: {
+        linkId: parseInt(args.linkId),
+        userId
+      }
+    },
+  })
+  if (!!vote) {
+    throw new Error('You have already voted this link!')
+  }
+  const newVote = context.prisma.vote.create({
+    data: {
+      user: {connect: {id: userId}},
+      link: {connect: {id: parseInt(args.linkId)}}
+    }
+  })
+  await context.pubsub.publish('NEW_VOTE', newVote)
+  return newVote
+}
+
 module.exports = {
   post,
   updatePost,
   deletePost,
   signUp,
-  logIn
+  logIn,
+  vote
 }

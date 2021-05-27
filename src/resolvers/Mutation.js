@@ -2,13 +2,17 @@ const jwt = require("jsonwebtoken");
 const {APP_SECRET, getUserId} = require('../utlis')
 const bcrypt = require('bcryptjs')
 
-const post = (parent, args, context) => context.prisma.link.create({
-  data: {
-    url: args.url,
-    description: args.description,
-    postedBy: {connect: {id: context.userId}}
-  }
-})
+const post = async (parent, args, context) => {
+  const newLink = await context.prisma.link.create({
+    data: {
+      url: args.url,
+      description: args.description,
+      postedBy: {connect: {id: context.userId}}
+    }
+  })
+  await context.pubsub.publish('New_Link', newLink)
+  return newLink
+}
 const updatePost = (parent, args, context) => context.prisma.link.update({
   where: {
     id: parseInt(args.id)

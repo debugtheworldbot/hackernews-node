@@ -9,7 +9,7 @@ type AuthPayload {
     user:User
 }
 type Query{
-    feed(filter:String):[Link!]!
+    feed(filter:String,skip:Int,take:Int):[Link!]!
     link(id: ID!): Link
 }
 type Vote{

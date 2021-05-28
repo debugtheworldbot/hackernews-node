@@ -1,11 +1,16 @@
 const feed = (parent, args, context) => {
+  const {skip,take} = args
   const where = args.filter ? {
     OR: [
       {description: {contains: args.filter}},
       {url: {contains: args.filter}},
     ]
   } : {}
-  return context.prisma.link.findMany({where})
+  return context.prisma.link.findMany({
+    where,
+    skip,
+    take
+  })
 }
 
 const link = (parent, args, context) => context.prisma.link.findFirst({

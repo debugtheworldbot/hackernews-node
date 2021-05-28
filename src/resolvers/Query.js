@@ -1,5 +1,5 @@
 const feed = (parent, args, context) => {
-  const {skip,take} = args
+  const {skip,take,orderBy} = args
   const where = args.filter ? {
     OR: [
       {description: {contains: args.filter}},
@@ -9,7 +9,8 @@ const feed = (parent, args, context) => {
   return context.prisma.link.findMany({
     where,
     skip,
-    take
+    take,
+    orderBy
   })
 }
 
